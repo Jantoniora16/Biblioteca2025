@@ -3,7 +3,10 @@ package es.educastur.jantoniora16.biblioteca2025;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * Este es el proyecto de la clase biblioteca
+ * @author Joseiro
+ */
 public class Biblioteca2025
 {
     private ArrayList <Libro> libros;
@@ -51,7 +54,8 @@ public class Biblioteca2025
         prestamos.add(new Prestamo(libros.get(6),usuarios.get(2), hoy,hoy.plusDays(15)));
         prestamos.add(new Prestamo(libros.get(2),usuarios.get(1), hoy,hoy.plusDays(15)));
     }
-
+    
+    //<editor-fold defaultstate="collapsed" desc="GESTION DE MENUS">
     private void menuPrincipal()
     {
         Scanner sc = new Scanner (System.in);
@@ -209,7 +213,8 @@ public class Biblioteca2025
         }
         while(opcion != 9);
     }
-    
+//</editor-fold>
+     
     //<editor-fold defaultstate="collapsed" desc="GESTION DE LIBROS">
     private void nuevoLibro()
     {
@@ -228,7 +233,10 @@ public class Biblioteca2025
 
     private void listaLibro()
     {
-        
+        for (Libro l : libros) 
+        {
+            System.out.println(l);
+        }
     }
 //</editor-fold>
     
@@ -256,10 +264,34 @@ public class Biblioteca2025
     
     //<editor-fold defaultstate="collapsed" desc="GESTION DE PRESTAMOS">
     private void nuevoPrestamo()
-    {
-        
+    {   
+        LocalDate hoy = LocalDate.now();
+        System.out.println("Identificación del usuario: ");
+        int posUsuario = buscaDni(solicitaDni());
+        if (posUsuario == -1)
+        {
+            System.out.println("No es aún usuario de la biblioteca");
+        }
+        else
+        {
+            System.out.println("Identificaión del libro: ");
+            int posLibro = buscaIsbn(solicitaIsbn());
+            if (posLibro == -1)
+            {
+                System.out.println("El ISBN pertenece a un libro inexistente");
+            }
+            else if (libros.get(posLibro).getEjemplares() > 0)
+            {
+                prestamos.add(new Prestamo(libros.get(posLibro), usuarios.get(posUsuario), hoy, hoy.plusDays(15)));
+                libros.get(posLibro).setEjemplares(libros.get(posLibro).getEjemplares() - 1);
+            }
+            else
+            {
+                System.out.println("No quedan unidades disponibles de este libro");
+            }
+        }
     }
-
+    
     private void eliminarPrestamo()
     {
         
@@ -272,7 +304,74 @@ public class Biblioteca2025
 
     private void listaPrestamo()
     {
-        
+        for (Prestamo p : prestamos) 
+        {
+            System.out.println(p);
+        }
     } 
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="METODOS AUXILIARES">
+    /**
+     * Método para buscar un usuario en la colección usuarios
+     * @param dni (String) del usuario a buscar en la colección
+     * @return posición (int) del usuario en el Arraylist, valor -1 si no se encuentra
+     */
+    public int buscaDni (String dni)
+    {
+        int pos = -1;
+        for (int i = 0; i < usuarios.size(); i++) 
+        {
+            if (usuarios.get(i).getDni().equalsIgnoreCase(dni))
+            {
+                pos = i;
+                break;
+            }     
+        }
+        return pos;
+    }
+    
+    /**
+     * Método para buscar un libro en la colección libros
+     * @param isbn (String) del libro a buscar en la colección
+     * @return posición (int) del usuario en el Arraylist, valor -1 si no se encuentra
+     */
+    public int buscaIsbn (String isbn)
+    {
+        int pos = -1;
+        for (int i = 0; i < libros.size(); i++) 
+        {
+            if (libros.get(i).getIsbn().equalsIgnoreCase(isbn))
+            {
+                pos = i;
+                break;
+            }     
+        }
+        return pos;
+    }
+    
+    /**
+     * Método para solicitar por teclado el DNI de un usuario. Pdte de validación
+     * @return (String) dni de un usuario tecleado
+     */
+    public String solicitaDni ()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Teclea el dni del usuario: ");
+        String dni = sc.next();
+        return dni;
+    }
+    
+    /**
+     * Método para solicitar por teclado el ISBN de un libro. Pdte de validación
+     * @return (String) isbn del libro tecleado
+     */
+    public String solicitaIsbn ()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Teclea el isbn del libro: ");
+        String isbn = sc.next();
+        return isbn;
+    }
 //</editor-fold>
 }
