@@ -218,21 +218,71 @@ public class Biblioteca2025
     //<editor-fold defaultstate="collapsed" desc="GESTION DE LIBROS">
     private void nuevoLibro()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Añadir Libro ---");   
+        System.out.print("Introduce el ISBN del libro: ");
+        String isbn = sc.nextLine();
+        System.out.println("Introduce el título del libro: ");
+        String titulo = sc.nextLine();
+        System.out.println("Introduce el autor del libro: ");
+        String autor = sc.nextLine();
+        System.out.println("Introduce el genero del libro: ");
+        String genero = sc.nextLine();
+        System.out.println("Introduce la cantidad de libros: ");
+        int ejemplares = sc.nextInt();
         
+        libros.add(new Libro(isbn, titulo, autor, genero, ejemplares));
+        System.out.println("¡Libro añadido con éxito!");
     }
 
     private void eliminarLibro()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Eliminar Libro ---");
+        System.out.print("Introduce el ISBN del libro a borrar: ");
+        String isbn = sc.nextLine();
         
+        for (int i = 0; i < libros.size(); i++) 
+        {
+            if (libros.get(i).getIsbn().equals(isbn))
+            {
+                libros.remove(i);
+                System.out.println("¡Libro eliminado con éxito!");
+                return;
+            }
+        }
+        System.out.println("No se encontró ningún libro con ese ISBN.");
     }
 
     private void modificarLibro()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Modificar Libro ---");
+        System.out.print("Introduce el ISBN del libro a modificar: ");
+        String isbn = sc.nextLine();
         
+        for (Libro libro : libros)
+        {
+            if (libro.getIsbn().equals(isbn)) 
+            {
+                System.out.print("Nuevo título: ");
+                libro.setTitulo(sc.nextLine());
+                System.out.print("Nuevo autor: ");
+                libro.setAutor(sc.nextLine());
+                System.out.print("Nuevo género: ");
+                libro.setGenero(sc.nextLine());
+                System.out.print("Numero de ejemplares: ");
+                libro.setEjemplares(sc.nextInt());
+                System.out.println("¡Libro modificado con éxito!");
+                return;
+            }
+        }
+        System.out.println("No se encontró el libro con ese ISBN.");
     }
 
     private void listaLibro()
     {
+        System.out.println("--- Listado de Libros ---");
         for (Libro l : libros) 
         {
             System.out.println(l);
