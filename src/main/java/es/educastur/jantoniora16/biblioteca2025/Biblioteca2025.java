@@ -182,7 +182,7 @@ public class Biblioteca2025
             System.out.println("\n\n\n\n\t\t\t\tMENU PRÉSTAMOS\n");
             System.out.println("\t\t\t\t1 - NUEVO PRÉSTAMO");
             System.out.println("\t\t\t\t2 - DEVOLUCIÓN PRÉSTAMO");
-            System.out.println("\t\t\t\t3 - MODIFICAR PRÉSTAMO");
+            System.out.println("\t\t\t\t3 - PRORROGAR PRÉSTAMO");
             System.out.println("\t\t\t\t4 - LISTADO");
             System.out.println("\t\t\t\t9 - SALIR");
             
@@ -201,7 +201,7 @@ public class Biblioteca2025
                 }
                 case 3:
                 {
-                    modificarPrestamo();
+                    prorrogarPrestamo();
                     break;
                 }
                 case 4:
@@ -253,7 +253,7 @@ public class Biblioteca2025
         }
         System.out.println("No se encontró ningún libro con ese ISBN.");
     }
-
+//revisar
     private void modificarLibro()
     {
         Scanner sc = new Scanner(System.in);
@@ -265,13 +265,7 @@ public class Biblioteca2025
         {
             if (libro.getIsbn().equals(isbn)) 
             {
-                System.out.print("Nuevo título: ");
-                libro.setTitulo(sc.nextLine());
-                System.out.print("Nuevo autor: ");
-                libro.setAutor(sc.nextLine());
-                System.out.print("Nuevo género: ");
-                libro.setGenero(sc.nextLine());
-                System.out.print("Numero de ejemplares: ");
+                System.out.print("Numero de ejemplares a modificar(Introduce + o - delante del número para sumar o restar ejemplares): ");
                 libro.setEjemplares(sc.nextInt());
                 System.out.println("¡Libro modificado con éxito!");
                 return;
@@ -395,12 +389,57 @@ public class Biblioteca2025
     
     private void devolverPrestamo()
     {
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Devolver Préstamo ---");
+        System.out.print("Introduce el dni del usuario: ");
+        String dni = sc.nextLine();
+        System.out.print("Introduce el ISBN del libro a devolver: ");
+        String isbn = sc.nextLine();
+        
+        for (int i = 0; i < prestamos.size(); i++) 
+        {
+            Prestamo prestamo = prestamos.get(i);
+            
+            if (prestamo.getLibroPrest().getIsbn().equals(isbn))
+            {
+                if (prestamo.getUsuarioPrest().getDni().equals(dni))
+                {
+                    prestamo.getLibroPrest().setEjemplares(prestamo.getLibroPrest().getEjemplares() + 1);
+                    
+                    prestamos.remove(i);
+                    System.out.println("¡Préstamos devuelto con éxito!");
+                    return;
+                }
+            }
+        }
+        System.out.println("No se encontró ningún préstamo para este usuario con este isbn.");
     }
 
-    private void modificarPrestamo()
+    private void prorrogarPrestamo()
     {
+        LocalDate hoy = LocalDate.now();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Prorrogar Prestamo 15 Días---");
+        System.out.print("Introduce el dni del usuario: ");
+        String dni = sc.nextLine();
+        System.out.print("Introduce el ISBN del libro a devolver: ");
+        String isbn = sc.nextLine();
         
+        for (int i = 0; i < prestamos.size(); i++) 
+        {
+            Prestamo prestamo = prestamos.get(i);
+            
+            if (prestamo.getLibroPrest().getIsbn().equals(isbn))
+            {
+                if (prestamo.getUsuarioPrest().getDni().equals(dni))
+                {
+                    prestamo.setFechaDev(hoy.plusDays(15));
+                    System.out.println("¡Préstamos prorrogado con éxito!");
+                    return;
+                }
+            }
+        }
+        System.out.println("No se encontró ningún préstamo para este usuario con este isbn.");
     }
 
     private void listaPrestamo()
