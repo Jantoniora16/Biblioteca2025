@@ -65,7 +65,7 @@ public class Biblioteca2025
             System.out.println("\n\n\n\n\t\t\t\tMENU PRINCIPAL\n");
             System.out.println("\t\t\t\t1 - LIBROS");
             System.out.println("\t\t\t\t2 - USUARIOS");
-            System.out.println("\t\t\t\t3 - PRESTAMOS");
+            System.out.println("\t\t\t\t3 - PRÉSTAMOS");
             System.out.println("\t\t\t\t9 - SALIR");
             
             opcion = sc.nextInt();
@@ -179,10 +179,10 @@ public class Biblioteca2025
         int opcion = 0;
         do
         {
-            System.out.println("\n\n\n\n\t\t\t\tMENU PRESTAMOS\n");
-            System.out.println("\t\t\t\t1 - NUEVO PRESTAMO");
-            System.out.println("\t\t\t\t2 - ELIMINAR PRESTAMO");
-            System.out.println("\t\t\t\t3 - MODIFICAR PRESTAMO");
+            System.out.println("\n\n\n\n\t\t\t\tMENU PRÉSTAMOS\n");
+            System.out.println("\t\t\t\t1 - NUEVO PRÉSTAMO");
+            System.out.println("\t\t\t\t2 - DEVOLUCIÓN PRÉSTAMO");
+            System.out.println("\t\t\t\t3 - MODIFICAR PRÉSTAMO");
             System.out.println("\t\t\t\t4 - LISTADO");
             System.out.println("\t\t\t\t9 - SALIR");
             
@@ -196,7 +196,7 @@ public class Biblioteca2025
                 }
                 case 2:
                 {
-                    eliminarPrestamo();
+                    devolverPrestamo();
                     break;
                 }
                 case 3:
@@ -293,22 +293,73 @@ public class Biblioteca2025
     //<editor-fold defaultstate="collapsed" desc="GESTION DE USUARIOS">
     private void nuevoUsuario()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Añadir Usuario ---");   
+        System.out.print("Introduce el dni del usuario: ");
+        String dni = sc.nextLine();
+        System.out.println("Introduce el nombre del usuario: ");
+        String nombre = sc.nextLine();
+        System.out.println("Introduce el correo del usuario: ");
+        String email = sc.nextLine();
+        System.out.println("Introduce el numero del usuario: ");
+        String telefono = sc.nextLine();
         
+        usuarios.add(new Usuario(dni, nombre, email, telefono));
+        System.out.println("¡Usuario añadido con éxito!");
     }
 
     private void eliminarUsuario()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Eliminar Usuario ---");
+        System.out.print("Introduce el dni del usuario a borrar: ");
+        String dni = sc.nextLine();
         
+        for (int i = 0; i < usuarios.size(); i++) 
+        {
+            if (usuarios.get(i).getDni().equals(dni))
+            {
+                usuarios.remove(i);
+                System.out.println("¡Usuario eliminado con éxito!");
+                return;
+            }
+        }
+        System.out.println("No se encontró ningún Usuario con ese dni.");
     }
 
     private void modificarUsuario()
     {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Modificar Usuario ---");
+        System.out.print("Introduce el dni del usuario a modificar: ");
+        String dni = sc.nextLine();
         
+        for (Usuario usuario : usuarios)
+        {
+            if (usuario.getDni().equals(dni)) 
+            {
+                System.out.print("Nuevo dni: ");
+                usuario.setDni(sc.nextLine());
+                System.out.print("Nuevo nombre: ");
+                usuario.setNombre(sc.nextLine());
+                System.out.print("Nuevo email: ");
+                usuario.setEmail(sc.nextLine());
+                System.out.print("Numero de telefono nuevo: ");
+                usuario.setTelefono(sc.nextLine());
+                System.out.println("¡Usuario modificado con éxito!");
+                return;
+            }
+        }
+        System.out.println("No se encontró el usuario con ese dni.");
     }
 
     private void listaUsuario()
     {
-        
+        System.out.println("--- Listado de Usuarios ---");
+        for (Usuario u : usuarios) 
+        {
+            System.out.println(u);
+        }
     }
 //</editor-fold>
     
@@ -324,7 +375,7 @@ public class Biblioteca2025
         }
         else
         {
-            System.out.println("Identificaión del libro: ");
+            System.out.println("Identificación del libro: ");
             int posLibro = buscaIsbn(solicitaIsbn());
             if (posLibro == -1)
             {
@@ -342,9 +393,9 @@ public class Biblioteca2025
         }
     }
     
-    private void eliminarPrestamo()
+    private void devolverPrestamo()
     {
-        
+
     }
 
     private void modificarPrestamo()

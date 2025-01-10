@@ -70,6 +70,10 @@ public class Libro
     @Override
     public String toString() 
     {
-        return isbn + "-" + titulo + "-" + autor + "-" + genero + "-" + ejemplares;
+        return isbn + " - " + titulo + " - " + autor + " - " + genero + " - " + ejemplares;
+    }
+
+    Object getLibros() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

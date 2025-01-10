@@ -58,6 +58,6 @@ public class Usuario
     @Override
     public String toString()
     {
-        return dni + "-" + nombre + "-" + email + "-" + telefono;
+        return dni + " - " + nombre + " - " + email + " - " + telefono;
     }
 }

@@ -60,6 +60,6 @@ public class Prestamo
     @Override
     public String toString()
     {
-        return libroPrest + "-" + usuarioPrest + "-" + fechaPrest + "-" + fechaDev;
+        return libroPrest + " - " + usuarioPrest + " - " + fechaPrest + " - " + fechaDev;
     }
 }
