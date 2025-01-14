@@ -63,6 +63,7 @@ public class Biblioteca2025
     {
         Scanner sc = new Scanner (System.in);
         int opcion = 0;
+        
         do
         {
             System.out.println("\n\n\n\n\t\t\t\tMENÚ PRINCIPAL\n");
@@ -72,6 +73,7 @@ public class Biblioteca2025
             System.out.println("\t\t\t\t9 - SALIR");
             
             opcion = sc.nextInt();
+            
             switch (opcion)
             {
                 case 1:
@@ -98,6 +100,7 @@ public class Biblioteca2025
     {
         Scanner sc = new Scanner (System.in);
         int opcion = 0;
+        
         do
         {
             System.out.println("\n\n\n\n\t\t\t\tMENÚ LIBROS\n");
@@ -108,6 +111,7 @@ public class Biblioteca2025
             System.out.println("\t\t\t\t9 - SALIR");
             
             opcion = sc.nextInt();
+            
             switch (opcion)
             {
                 case 1:
@@ -139,6 +143,7 @@ public class Biblioteca2025
     {
         Scanner sc = new Scanner (System.in);
         int opcion = 0;
+        
         do
         {
             System.out.println("\n\n\n\n\t\t\t\tMENÚ USUARIOS\n");
@@ -149,6 +154,7 @@ public class Biblioteca2025
             System.out.println("\t\t\t\t9 - SALIR");
             
             opcion = sc.nextInt();
+            
             switch (opcion)
             {
                 case 1:
@@ -180,6 +186,7 @@ public class Biblioteca2025
     {
         Scanner sc = new Scanner (System.in);
         int opcion = 0;
+        
         do
         {
             System.out.println("\n\n\n\n\t\t\t\tMENÚ PRÉSTAMOS\n");
@@ -192,6 +199,7 @@ public class Biblioteca2025
             System.out.println("\t\t\t\t9 - SALIR");
             
             opcion = sc.nextInt();
+            
             switch (opcion)
             {
                 case 1:
@@ -235,8 +243,21 @@ public class Biblioteca2025
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("--- Añadir Libro ---");   
-        System.out.print("Introduce el ISBN del libro: ");
-        String isbn = sc.nextLine();
+        String isbn = solicitaIsbn();
+        int posLibro = buscaIsbn(isbn);
+        
+        if (posLibro != - 1)
+        {
+            Libro libroExistente = libros.get(posLibro);
+            System.out.println("El libro con ISBN: " + isbn + " ya está en la biblioteca");
+            System.out.println("¿Cuántos ejemplares deseas añadir del libro: " + libroExistente.getTitulo() +"?");
+            int ejemplaresAdicionales = sc.nextInt();
+            
+            libroExistente.setEjemplares(libroExistente.getEjemplares() + ejemplaresAdicionales);
+            System.out.println("Se han añadido " + ejemplaresAdicionales + " ejemplares al libro existente.");
+        }
+        else
+        {
         System.out.println("Introduce el título del libro: ");
         String titulo = sc.nextLine();
         System.out.println("Introduce el autor del libro: ");
@@ -248,6 +269,7 @@ public class Biblioteca2025
         
         libros.add(new Libro(isbn, titulo, autor, genero, ejemplares));
         System.out.println("¡Libro añadido con éxito!");
+        }
     }
 
     private void eliminarLibro()
